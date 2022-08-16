@@ -1,0 +1,67 @@
+<style>
+    .container {
+        margin: auto;
+        width: 50vw;
+    }
+
+    .form-imput {
+        margin-bottom: 2vh;
+    }
+</style>
+
+<script>
+    const dateOfBirth = document.getElementById('date-of-birth');
+    dateOfBirth.setAttribute('max', 111);
+
+
+</script>
+
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulaire sécurisé</title>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Formulaire sécurisé</h1>
+
+        <form action="" method="post">
+
+            <div class="form-imput">
+                <label for="first-name">Enter your firstname: </label>
+                <input type="text" name="first-name" id="first-name" placeholder="First name" maxlength="50">
+            </div>
+
+            <div class="form-imput">
+                <label for="last-name">Enter your lastname: </label>
+                <input type="text" name="last-name" id="last-name" placeholder="Last name" maxlength="50">
+            </div>
+
+            <div class="form-imput">
+                <label for="date-of-birth">Enter your date of birth: </label>
+                <input type="date" name="date-of-birth" id="date-of-birth" min='1900-01-01' max='2022-11-12'>
+            </div>
+
+            <div class="form-imput">
+                <label for="email">Enter your email: </label>
+                <input type="email" name="email" id="email" placeholder="anthony@domaine.com">
+            </div>
+
+            <div>
+                <input type="submit" value="Submit !">
+            </div>
+
+        </form>
+
+    </div>
+
+</body>
+
+</html>
