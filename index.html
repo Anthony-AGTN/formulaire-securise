@@ -9,12 +9,6 @@
     }
 </style>
 
-<script>
-    const dateOfBirth = document.getElementById('date-of-birth');
-    dateOfBirth.setAttribute('max', 111);
-
-
-</script>
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -65,3 +59,28 @@
 </body>
 
 </html>
+
+
+<script>
+
+    /* Fonction pour obtenir un nombre à n chiffres avant la virgule
+     * Exemple pour "5" le résultat est "05" */
+    function formatIntForTwoNumber(dateValue) {
+        if (10 > dateValue) {
+            return "0" + dateValue;
+        }
+        return dateValue;
+    }
+
+    // Captation de la date du jour formaté pour l'attribut "max" de l'input de type date
+    const dateOfToday = new Date();
+    const yearOfToday = dateOfToday.getFullYear();
+    const monthOfToday = formatIntForTwoNumber(dateOfToday.getMonth() + 1);
+    const dayOfToday = formatIntForTwoNumber(dateOfToday.getDate());
+    const dateFormatForMaxDateOfBirth = yearOfToday + "-" + monthOfToday + "-" + dayOfToday;
+
+    // Modification de l'attribut "max" dans l'input "date-of-birth" avec la date du jour
+    const dateOfBirth = document.getElementById('date-of-birth');
+    dateOfBirth.setAttribute('max', dateFormatForMaxDateOfBirth);
+
+</script>
