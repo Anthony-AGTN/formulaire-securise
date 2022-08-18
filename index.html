@@ -8,7 +8,7 @@
     <title>Formulaire sécurisé</title>
     <style>
         body {
-            background-color:bisque;
+            background-color: bisque;
         }
 
         .container {
@@ -30,7 +30,7 @@
 
         <form action="" method="post">
 
-            <p>Choisi ta civilité :</p>
+            <p>Choisis ta civilité :</p>
             <div class="form-input">
                 <input type="radio" id="non-binary" name="civility" value="Non-binaire">
                 <label for="Non-binary">Non-binaire</label>
@@ -65,6 +65,20 @@
             <div class="form-input">
                 <label for="password">Entre ton mot de passe : </label>
                 <input type="password" name="password" id="password" placeholder="**********" maxlength="50">
+            </div>
+
+            <div class="form-input">
+                <label for="country-select">Choisis ton pays :</label>
+
+                <select name="country" id="country-select">
+                    <option value="">--Choisis un pays--</option>
+                    <option value="france">France</option>
+                    <option value="allemagne">Allemagne</option>
+                    <option value="angleterre">Angleterre</option>
+                    <option value="portugal">Portugal</option>
+                    <option value="suisse">Suisse</option>
+                    <option value="italie">Italie</option>
+                </select>
             </div>
 
             <div>
