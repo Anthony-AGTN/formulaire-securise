@@ -7,13 +7,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulaire sécurisé</title>
     <style>
+        body {
+            background-color:bisque;
+        }
+
         .container {
             margin: auto;
             width: 50vw;
         }
 
         .form-input {
-            margin-bottom: 2vh;
+            margin-bottom: 3vh;
         }
     </style>
 </head>
@@ -26,24 +30,41 @@
 
         <form action="" method="post">
 
+            <p>Choisi ta civilité :</p>
             <div class="form-input">
-                <label for="first-name">Enter your firstname: </label>
-                <input type="text" name="first-name" id="first-name" placeholder="First name" maxlength="50">
+                <input type="radio" id="non-binary" name="civility" value="Non-binaire">
+                <label for="Non-binary">Non-binaire</label>
+
+                <input type="radio" id="woman" name="civility" value="Femme">
+                <label for="woman">Femme</label>
+
+                <input type="radio" id="man" name="civility" value="Homme">
+                <label for="man">Homme</label>
             </div>
 
             <div class="form-input">
-                <label for="last-name">Enter your lastname: </label>
-                <input type="text" name="last-name" id="last-name" placeholder="Last name" maxlength="50">
+                <label for="first-name">Entre ton prénom : </label>
+                <input type="text" name="first-name" id="first-name" placeholder="Prénom" maxlength="50">
             </div>
 
             <div class="form-input">
-                <label for="date-of-birth">Enter your date of birth: </label>
+                <label for="last-name">Entre ton nom : </label>
+                <input type="text" name="last-name" id="last-name" placeholder="Nom" maxlength="50">
+            </div>
+
+            <div class="form-input">
+                <label for="date-of-birth">Entre ta date de naissance : </label>
                 <input type="date" name="date-of-birth" id="date-of-birth" min='1900-01-01' max='2022-11-12'>
             </div>
 
             <div class="form-input">
-                <label for="email">Enter your email: </label>
+                <label for="email">Entre ton Email: </label>
                 <input type="email" name="email" id="email" placeholder="anthony@domaine.com">
+            </div>
+
+            <div class="form-input">
+                <label for="password">Entre ton mot de passe : </label>
+                <input type="password" name="password" id="password" placeholder="**********" maxlength="50">
             </div>
 
             <div>
