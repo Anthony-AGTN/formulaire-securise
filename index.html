@@ -17,15 +17,18 @@
 
         h2 {
             margin-top: 0;
+            margin-bottom: 0.5em;
         }
 
         .h2-comment {
-            margin-bottom: 3vh;
+            margin-top: 0;
+            margin-bottom: 2em;
         }
 
         .main-container {
             margin: auto;
-            width: 50vw;
+            width: 80vw;
+            max-width: 500px;
         }
 
         .form-container {
@@ -35,7 +38,7 @@
         }
 
         .form-input {
-            margin-bottom: 3vh;
+            margin-bottom: 2em;
         }
     </style>
 </head>
@@ -92,20 +95,6 @@
                 </div>
 
                 <div class="form-input">
-                    <label for="country-select">Pays :</label>
-
-                    <select name="country" id="country-select">
-                        <option value="">--Choisis un pays--</option>
-                        <option value="france">France</option>
-                        <option value="allemagne">Allemagne</option>
-                        <option value="angleterre">Angleterre</option>
-                        <option value="portugal">Portugal</option>
-                        <option value="suisse">Suisse</option>
-                        <option value="italie">Italie</option>
-                    </select>
-                </div>
-
-                <div class="form-input">
                     <label for="adress">Adresse : </label>
                     <input type="text" name="adress" id="adress" placeholder="N° et libellé de rue" maxlength="50">
                 </div>
@@ -120,6 +109,25 @@
                     <label for="zip-code">Code postal : </label>
                     <input type="text" name="zip-code" id="zip-code" placeholder="Code postal" maxlength="5"
                         pattern="[0-9]{5}" title="La valeur saisie n'est pas un code postal valide !!!">
+                </div>
+
+                <div class="form-input">
+                    <label for="city">Ville : </label>
+                    <input type="text" name="city" id="city" placeholder="Ville" maxlength="50">
+                </div>
+
+                <div class="form-input">
+                    <label for="country-select">Pays :</label>
+
+                    <select name="country" id="country-select">
+                        <option value="">--Choisis un pays--</option>
+                        <option value="france">France</option>
+                        <option value="allemagne">Allemagne</option>
+                        <option value="angleterre">Angleterre</option>
+                        <option value="portugal">Portugal</option>
+                        <option value="suisse">Suisse</option>
+                        <option value="italie">Italie</option>
+                    </select>
                 </div>
 
                 <div>
