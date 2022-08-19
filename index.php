@@ -17,49 +17,46 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     // Création d'un tableau pour stocker les messages d'erreurs
     $errors = [];
 
-    if (!empty($datas['first-name'])) {
-        $firstName = $datas['first-name'];
+    // Vérification que les champs obligatoires soient remplis
+    if (empty($datas['first-name'])) {
+        $errors[] = 'Le prénom est obligatoire !';
     }
 
-    if (!empty($datas['last-name'])) {
-        $lastName = $datas['last-name'];
+    if (empty($datas['last-name'])) {
+        $errors[] = 'Le nom est obligatoire !';
     }
 
-    if (!empty($datas['date-of-birth'])) {
-        $dateOfBirth = $datas['date-of-birth'];
+    if (empty($datas['date-of-birth'])) {
+        $errors[] = 'La date de naissance est obligatoire !';
     }
 
-    if (!empty($datas['email'])) {
-        $email = $datas['email'];
+    if (empty($datas['email'])) {
+        $errors[] = 'L\'email est obligatoire !';
     }
 
-    if (!empty($datas['telephone'])) {
-        $telephone = $datas['telephone'];
+    if (empty($datas['password'])) {
+        $errors[] = 'Le mot de passe est obligatoire !';
     }
 
-    if (!empty($datas['password'])) {
-        $password = $datas['password'];
+    if (empty($datas['adress'])) {
+        $errors[] = 'L\'adresse est obligatoire !';
     }
 
-    if (!empty($datas['adress'])) {
-        $adress = $datas['adress'];
+    if (empty($datas['zip-code'])) {
+        $errors[] = 'Le code postal est obligatoire !';
     }
 
-    if (!empty($datas['additional-address'])) {
-        $additionalAddress = $datas['additional-address'];
+    if (empty($datas['city'])) {
+        $errors[] = 'La ville est obligatoire !';
     }
 
-    if (!empty($datas['zip-code'])) {
-        $zipCode = $datas['zip-code'];
+    if (empty($datas['country'])) {
+        $errors[] = 'Le pays est obligatoire !';
     }
 
-    if (!empty($datas['city'])) {
-        $city = $datas['city'];
-    }
 
-    if (!empty($datas['country'])) {
-        $country = $datas['country'];
-    }
+
+   
 
 
 
@@ -173,6 +170,11 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         .form-input {
             margin-bottom: 2em;
         }
+
+        h3,
+        span {
+            color: red;
+        }
     </style>
 </head>
 
@@ -182,6 +184,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
         <h1>Formulaire sécurisé</h1>
 
+        <!-- Affichage du formulaire HTML + PHP -->
         <div class="form-container">
 
             <h2>Formulaire HTML + PHP</h2>
@@ -203,22 +206,22 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                 </div>
 
                 <div class="form-input">
-                    <label for="first-name">Prénom : </label>
+                    <label for="first-name">Prénom<span>*</span> : </label>
                     <input type="text" name="first-name" id="first-name" placeholder="Prénom" maxlength="50">
                 </div>
 
                 <div class="form-input">
-                    <label for="last-name">Nom : </label>
+                    <label for="last-name">Nom<span>*</span> : </label>
                     <input type="text" name="last-name" id="last-name" placeholder="Nom" maxlength="50">
                 </div>
 
                 <div class="form-input">
-                    <label for="date-of-birth">Date de naissance : </label>
+                    <label for="date-of-birth">Date de naissance<span>*</span> : </label>
                     <input type="date" name="date-of-birth" id="date-of-birth" min='1900-01-01' max='2022-11-12'>
                 </div>
 
                 <div class="form-input">
-                    <label for="email">Email: </label>
+                    <label for="email">Email<span>*</span> : </label>
                     <input type="email" name="email" id="email" placeholder="anthony@domaine.com">
                 </div>
 
@@ -228,12 +231,12 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                 </div>
 
                 <div class="form-input">
-                    <label for="password">Mot de passe : </label>
+                    <label for="password">Mot de passe<span>*</span> : </label>
                     <input type="password" name="password" id="password" placeholder="**********" maxlength="50">
                 </div>
 
                 <div class="form-input">
-                    <label for="adress">Adresse : </label>
+                    <label for="adress">Adresse<span>*</span> : </label>
                     <input type="text" name="adress" id="adress" placeholder="N° et libellé de rue" maxlength="50">
                 </div>
 
@@ -243,17 +246,17 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                 </div>
 
                 <div class="form-input">
-                    <label for="zip-code">Code postal : </label>
+                    <label for="zip-code">Code postal<span>*</span> : </label>
                     <input type="text" name="zip-code" id="zip-code" placeholder="Code postal" maxlength="5" pattern="[0-9]{5}" title="La valeur saisie n'est pas un code postal valide !!!">
                 </div>
 
                 <div class="form-input">
-                    <label for="city">Ville : </label>
+                    <label for="city">Ville<span>*</span> : </label>
                     <input type="text" name="city" id="city" placeholder="Ville" maxlength="50">
                 </div>
 
                 <div class="form-input">
-                    <label for="country-select">Pays :</label>
+                    <label for="country-select">Pays<span>*</span> :</label>
 
                     <select name="country" id="country-select">
                         <option value="">--Choisis un pays--</option>
@@ -279,6 +282,27 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
         </div>
 
+        <!-- Affichage du résultat du formulaire -->
+        <div class="form-container">
+
+            <h2>Résultat du formulaire HTML + PHP</h2>
+
+            <p class="h2-comment">Résultat du formulaire avec validations côté HTML + validations côté PHP</p>
+
+            <?php
+            if (!empty($errors)) {
+                foreach ($errors as $error) {
+                    echo '<h3>' . $error . '</h3>';
+                }
+            } else {
+                echo '<p>Aucun résultat à afficher pour l\'instant =^_^=</p>';
+            }
+            
+            ?>
+
+        </div>
+
+        <!-- Affichage des options -->
         <div class="form-container">
             <form action="" method="post">
                 <div class="form-input">
