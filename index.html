@@ -11,9 +11,27 @@
             background-color: bisque;
         }
 
-        .container {
+        h1 {
+            text-align: center;
+        }
+
+        h2 {
+            margin-top: 0;
+        }
+
+        .h2-comment {
+            margin-bottom: 3vh;
+        }
+
+        .main-container {
             margin: auto;
             width: 50vw;
+        }
+
+        .form-container {
+            padding: 2em;
+            border: thick double #32a1ce;
+            border-radius: 30px;
         }
 
         .form-input {
@@ -24,75 +42,99 @@
 
 <body>
 
-    <div class="container">
+    <div class="main-container">
 
         <h1>Formulaire sécurisé</h1>
 
-        <form action="" method="post">
+        <div class="form-container">
 
-            <p>Choisis ta civilité :</p>
-            <div class="form-input">
-                <input type="radio" id="non-binary" name="civility" value="Non-binaire">
-                <label for="Non-binary">Non-binaire</label>
+            <h2>Formulaire HTML + PHP</h2>
 
-                <input type="radio" id="woman" name="civility" value="Femme">
-                <label for="woman">Femme</label>
+            <p class="h2-comment">Formulaire avec validations côté HTML + validations côté PHP</p>
 
-                <input type="radio" id="man" name="civility" value="Homme">
-                <label for="man">Homme</label>
-            </div>
+            <form action="" method="post">
 
-            <div class="form-input">
-                <label for="first-name">Entre ton prénom : </label>
-                <input type="text" name="first-name" id="first-name" placeholder="Prénom" maxlength="50">
-            </div>
+                <p>Civilité :</p>
+                <div class="form-input">
+                    <input type="radio" id="non-binary" name="civility" value="Non-binaire">
+                    <label for="Non-binary">Non-binaire</label>
 
-            <div class="form-input">
-                <label for="last-name">Entre ton nom : </label>
-                <input type="text" name="last-name" id="last-name" placeholder="Nom" maxlength="50">
-            </div>
+                    <input type="radio" id="woman" name="civility" value="Femme">
+                    <label for="woman">Femme</label>
 
-            <div class="form-input">
-                <label for="date-of-birth">Entre ta date de naissance : </label>
-                <input type="date" name="date-of-birth" id="date-of-birth" min='1900-01-01' max='2022-11-12'>
-            </div>
+                    <input type="radio" id="man" name="civility" value="Homme">
+                    <label for="man">Homme</label>
+                </div>
 
-            <div class="form-input">
-                <label for="email">Entre ton Email: </label>
-                <input type="email" name="email" id="email" placeholder="anthony@domaine.com">
-            </div>
+                <div class="form-input">
+                    <label for="first-name">Prénom : </label>
+                    <input type="text" name="first-name" id="first-name" placeholder="Prénom" maxlength="50">
+                </div>
 
-            <div class="form-input">
-                <label for="password">Entre ton mot de passe : </label>
-                <input type="password" name="password" id="password" placeholder="**********" maxlength="50">
-            </div>
+                <div class="form-input">
+                    <label for="last-name">Nom : </label>
+                    <input type="text" name="last-name" id="last-name" placeholder="Nom" maxlength="50">
+                </div>
 
-            <div class="form-input">
-                <label for="country-select">Choisis ton pays :</label>
+                <div class="form-input">
+                    <label for="date-of-birth">Date de naissance : </label>
+                    <input type="date" name="date-of-birth" id="date-of-birth" min='1900-01-01' max='2022-11-12'>
+                </div>
 
-                <select name="country" id="country-select">
-                    <option value="">--Choisis un pays--</option>
-                    <option value="france">France</option>
-                    <option value="allemagne">Allemagne</option>
-                    <option value="angleterre">Angleterre</option>
-                    <option value="portugal">Portugal</option>
-                    <option value="suisse">Suisse</option>
-                    <option value="italie">Italie</option>
-                </select>
-            </div>
+                <div class="form-input">
+                    <label for="email">Email: </label>
+                    <input type="email" name="email" id="email" placeholder="anthony@domaine.com">
+                </div>
 
-            <div>
-                <input type="submit" value="Submit !">
-            </div>
+                <div class="form-input">
+                    <label for="password">Mot de passe : </label>
+                    <input type="password" name="password" id="password" placeholder="**********" maxlength="50">
+                </div>
 
-        </form>
+                <div class="form-input">
+                    <label for="country-select">Pays :</label>
+
+                    <select name="country" id="country-select">
+                        <option value="">--Choisis un pays--</option>
+                        <option value="france">France</option>
+                        <option value="allemagne">Allemagne</option>
+                        <option value="angleterre">Angleterre</option>
+                        <option value="portugal">Portugal</option>
+                        <option value="suisse">Suisse</option>
+                        <option value="italie">Italie</option>
+                    </select>
+                </div>
+
+                <div class="form-input">
+                    <label for="adress">Adresse : </label>
+                    <input type="text" name="adress" id="adress" placeholder="N° et libellé de rue" maxlength="50">
+                </div>
+
+                <div class="form-input">
+                    <label for="additional-address">Complément d'adresse : </label>
+                    <input type="text" name="additional-address" id="additional-address"
+                        placeholder="N°bât, étage, appt, digicode..." maxlength="50">
+                </div>
+
+                <div class="form-input">
+                    <label for="zip-code">Code postal : </label>
+                    <input type="text" name="zip-code" id="zip-code" placeholder="Code postal" maxlength="5"
+                        pattern="[0-9]{5}" title="La valeur saisie n'est pas un code postal valide !!!">
+                </div>
+
+                <div>
+                    <input type="submit" value="Submit !">
+                </div>
+
+            </form>
+
+        </div>
 
     </div>
 
 </body>
 
 </html>
-
 
 <script>
 
