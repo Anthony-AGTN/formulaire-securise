@@ -55,7 +55,7 @@
 
             <p class="h2-comment">Formulaire avec validations côté HTML + validations côté PHP</p>
 
-            <form action="" method="post">
+            <form action="" method="post" enctype="multipart/form-data">
 
                 <p>Civilité :</p>
                 <div class="form-input">
@@ -87,6 +87,13 @@
                 <div class="form-input">
                     <label for="email">Email: </label>
                     <input type="email" name="email" id="email" placeholder="anthony@domaine.com">
+                </div>
+
+                <div class="form-input">
+                    <label for="telephone">Téléphone : </label>
+                    <input type="tel" name="telephone" id="telephone" placeholder="Téléphone" maxlength="20"
+                        pattern="^(0|\+33)[1-9]([-. ]?[0-9]{2}){4}$"
+                        title="La valeur saisie n'est pas un numéro français valide !!!">
                 </div>
 
                 <div class="form-input">
@@ -128,6 +135,11 @@
                         <option value="suisse">Suisse</option>
                         <option value="italie">Italie</option>
                     </select>
+                </div>
+
+                <div class="form-input">
+                    <label for="profile-picture">Image de profil</label>
+                    <input type="file" name="profile-picture" id="profile-picture" />
                 </div>
 
                 <div>
