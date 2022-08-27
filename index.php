@@ -54,11 +54,51 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         $errors[] = 'Le pays est obligatoire !';
     }
 
+    // Vérification que les champs ne dépasse pas le nombre de caractères autorisé
+    if (strlen($datas['first-name']) > 50)
+        $errors[] = 'Votre prénom ne doit pas excéder 50 caractères !';
+        
+    if (strlen($datas['last-name']) > 50)
+        $errors[] = 'Votre prénom ne doit pas excéder 50 caractères !';
 
+    if (strlen($datas['email']) > 50)
+        $errors[] = 'Votre prénom ne doit pas excéder 50 caractères !';
 
-   
+    if (strlen($datas['telephone']) > 20)
+        $errors[] = 'Votre prénom ne doit pas excéder 50 caractères !';
 
+    if (strlen($datas['password']) > 50)
+        $errors[] = 'Votre prénom ne doit pas excéder 50 caractères !';
 
+    if (strlen($datas['adress']) > 50)
+        $errors[] = 'Votre prénom ne doit pas excéder 50 caractères !';
+
+    if (strlen($datas['additional-address']) > 50)
+        $errors[] = 'Votre prénom ne doit pas excéder 50 caractères !';
+
+    if (strlen($datas['zip-code']) > 5)
+        $errors[] = 'Votre prénom ne doit pas excéder 50 caractères !';
+
+    if (strlen($datas['city']) > 50)
+        $errors[] = 'Votre prénom ne doit pas excéder 50 caractères !';
+
+    if (strlen($datas['country']) > 50)
+        $errors[] = 'Votre prénom ne doit pas excéder 50 caractères !';
+
+/* 
+civility
+first-name
+last-name
+date-of-birth
+email
+telephone
+password
+adress
+additional-address
+zip-code
+city
+country
+ */
 
     //------------------------------------------------------------------------------------------
     // Traitement des données de $_FILES (Image de profil) -------------------------------------
@@ -108,7 +148,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
             $uniqName = $name . uniqid('', true) . "." . $extension;
             $uploadFile = $uploadDir . $uniqName;
 
-            /****** Si je n'ai pas d"erreur alors j'upload *************/
+            /****** Si je n'ai pas d'erreur alors j'upload *************/
 
             // on déplace le fichier temporaire vers le nouvel emplacement sur le serveur. Ça y est, le fichier est uploadé
             move_uploaded_file($_FILES['avatar']['tmp_name'], $uploadFile);
@@ -297,7 +337,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
             } else {
                 echo '<p>Aucun résultat à afficher pour l\'instant =^_^=</p>';
             }
-            
+
             ?>
 
         </div>
