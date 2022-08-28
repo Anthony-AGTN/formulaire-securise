@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     // Vérification que les champs ne dépasse pas le nombre de caractères autorisé
     if (strlen($datas['first-name']) > 50)
         $errors[] = 'Votre prénom ne doit pas excéder 50 caractères !';
-        
+
     if (strlen($datas['last-name']) > 50)
         $errors[] = 'Votre prénom ne doit pas excéder 50 caractères !';
 
@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         $errors[] = 'Votre prénom ne doit pas excéder 50 caractères !';
 
     if (strlen($datas['telephone']) > 20)
-        $errors[] = 'Votre prénom ne doit pas excéder 50 caractères !';
+        $errors[] = 'Votre prénom ne doit pas excéder 20 caractères !';
 
     if (strlen($datas['password']) > 50)
         $errors[] = 'Votre prénom ne doit pas excéder 50 caractères !';
@@ -77,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         $errors[] = 'Votre prénom ne doit pas excéder 50 caractères !';
 
     if (strlen($datas['zip-code']) > 5)
-        $errors[] = 'Votre prénom ne doit pas excéder 50 caractères !';
+        $errors[] = 'Votre prénom ne doit pas excéder 5 caractères !';
 
     if (strlen($datas['city']) > 50)
         $errors[] = 'Votre prénom ne doit pas excéder 50 caractères !';
@@ -85,7 +85,16 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     if (strlen($datas['country']) > 50)
         $errors[] = 'Votre prénom ne doit pas excéder 50 caractères !';
 
-/* 
+    // Vérification des champs avec la fonction filter_var
+    if (!filter_var($datas['email'], FILTER_VALIDATE_EMAIL))
+        $errors[] = 'L\'email n\'est pas valide !';
+
+    if (!filter_var($datas['zip-code'], FILTER_VALIDATE_REGEXP, array("options" => array("regexp"=>"/[0-9]{5}/"))))
+        $errors[] = 'Le code postal n\'est pas valide !';
+
+
+
+    /* 
 civility
 first-name
 last-name
