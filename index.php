@@ -339,16 +339,17 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
             <p class="h2-comment">Résultat du formulaire avec validations côté HTML + validations côté PHP</p>
 
             <?php
-            if (!empty($errors)) {
+
+            if (!empty($errors)) { // Si formulaire soumis avec erreurs on affiche les erreurs
                 foreach ($errors as $error) {
                     echo '<h3>' . $error . '</h3>';
                 }
             } else {
-                if (isset($datas)) {
+                if (isset($datas)) { // Si formulaire soumis sans erreurs on affiche les données du formulaire
                     foreach ($datas as $key => $value) {
                         echo '<p><strong>' . $key . ' :</strong> ' . $value . '</p>';
                     }
-                } else {
+                } else { // S'il n'y a pas eu de formulaire soumis
                     echo '<p>Aucun résultat à afficher pour l\'instant =^_^=</p>';
                 }
             }
