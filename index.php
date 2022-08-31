@@ -118,57 +118,59 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         //------------------------------------------------------------------------------------------
         // Traitement des données de $_FILES (Image de profil) -------------------------------------
         //------------------------------------------------------------------------------------------
-        if (!empty($_FILES['avatar']['name'])) {
-            // chemin vers un dossier sur le serveur qui va recevoir les fichiers uploadés (attention ce dossier doit être accessible en écriture)
+
+        if (!empty($_FILES['profile-picture']['name'])) {
+
+            // Chemin vers un dossier sur le serveur qui va recevoir les fichiers uploadés (attention ce dossier doit être accessible en écriture)
             $uploadDir = 'public/uploads/';
-            // le nom de fichier sur le serveur est ici généré à partir du nom de fichier sur le poste du client (mais d'autre stratégies de nommage sont possibles)
-            $uploadFile = $uploadDir . basename($_FILES['avatar']['name']);
+
+            // Le nom de fichier sur le serveur est ici généré à partir du nom de fichier sur le poste du client (mais d'autre stratégies de nommage sont possibles)
+            $uploadFile = $uploadDir . basename($_FILES['profile-picture']['name']);
+
             // Je récupère l'extension du fichier
-            $extension = pathinfo($_FILES['avatar']['name'], PATHINFO_EXTENSION);
+            $extension = pathinfo($_FILES['profile-picture']['name'], PATHINFO_EXTENSION);
+
             // Les extensions autorisées (jpg, png, gif, webp)
             $authorizedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+
             // Je récupère le type mime du fichier
-            $typeMime = mime_content_type($_FILES['avatar']['tmp_name']);
+            $typeMime = mime_content_type($_FILES['profile-picture']['tmp_name']);
+
             // Les types mime autorisées (image/jpeg, png, gif, image/webp)
             $authorizedTypeMime = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+
             // Le poids max géré par PHP par défaut est de 2M, dans notre cas, nous sommes à 1M
             $maxFileSize = 1000000;
 
-            /****** Si l'extension est autorisée *************/
+            // Vérification si l'extension est autorisée
             if ((!in_array($extension, $authorizedExtensions))) {
                 $errors[] = 'Veuillez sélectionner une image de type Jpg ou Jpeg ou Png !';
             }
 
-            /****** Si le type mime est autorisée *************/
+            // Vérification si le type mime est autorisé
             if ((!in_array($typeMime, $authorizedTypeMime))) {
                 $errors[] = 'Le fichier est de type "' . $typeMime . '", veuillez sélectionner une image de type Jpg ou Jpeg ou Png !';
             }
 
-            /****** On vérifie si l'image existe et si le poids est autorisé en octets *************/
-            if (file_exists($_FILES['avatar']['tmp_name']) && filesize($_FILES['avatar']['tmp_name']) > $maxFileSize) {
+            // On vérifie si l'image existe et si le poids est autorisé en octets
+            if (file_exists($_FILES['profile-picture']['tmp_name']) && filesize($_FILES['profile-picture']['tmp_name']) > $maxFileSize) {
                 $errors[] = "Votre fichier doit faire moins de 1M !";
             }
 
-            if (!empty($errors)) {
-                $displayErrors = '';
-                foreach ($errors as $error) {
-                    $displayErrors .= "<div><h3>" . $error . "<h3><br></div>";
-                }
-            } else {
+            if (empty($errors)) { // Si aucune erreur
 
-                /****** on ajoute un uniqid au nom de l'image *************/
-                $explodeName = explode('.', basename($_FILES['avatar']['name']));
+                // On ajoute un uniqid au nom de l'image
+                $explodeName = explode('.', basename($_FILES['profile-picture']['name']));
                 $name = $explodeName[0];
                 $extension = $explodeName[1];
                 $uniqName = $name . uniqid('', true) . "." . $extension;
                 $uploadFile = $uploadDir . $uniqName;
 
-                /****** Si je n'ai pas d'erreur alors j'upload *************/
+                // On déplace le fichier temporaire vers le nouvel emplacement sur le serveur. Ça y est, le fichier est uploadé
+                move_uploaded_file($_FILES['profile-picture']['tmp_name'], $uploadFile);
 
-                // on déplace le fichier temporaire vers le nouvel emplacement sur le serveur. Ça y est, le fichier est uploadé
-                move_uploaded_file($_FILES['avatar']['tmp_name'], $uploadFile);
-
-                $photo = $uploadFile;
+                // Enregistrement du chemin d'accès à l'image dans la variable $profilePicture
+                $profilePicture = $uploadFile;
             }
         }
     }
@@ -201,6 +203,10 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         .h2-comment {
             margin-top: 0;
             margin-bottom: 2em;
+        }
+
+        img {
+            max-width: 400px;
         }
 
         .main-container {
@@ -348,6 +354,9 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                 if (isset($datas)) { // Si formulaire soumis sans erreurs on affiche les données du formulaire
                     foreach ($datas as $key => $value) {
                         echo '<p><strong>' . $key . ' :</strong> ' . $value . '</p>';
+                    }
+                    if ($profilePicture) {
+                        echo '<img src="' . $profilePicture . '">';
                     }
                 } else { // S'il n'y a pas eu de formulaire soumis
                     echo '<p>Aucun résultat à afficher pour l\'instant =^_^=</p>';
