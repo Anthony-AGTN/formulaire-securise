@@ -62,43 +62,54 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     }
 
     // Vérification que les champs ne dépasse pas le nombre de caractères autorisé
-    if (strlen($datas['first-name']) > 50)
+    if (strlen($datas['first-name']) > 50) {
         $errors[] = 'Votre prénom ne doit pas excéder 50 caractères !';
+    }
 
-    if (strlen($datas['last-name']) > 50)
+    if (strlen($datas['last-name']) > 50) {
         $errors[] = 'Votre nom ne doit pas excéder 50 caractères !';
+    }
 
-    if (strlen($datas['email']) > 50)
+    if (strlen($datas['email']) > 50) {
         $errors[] = 'Votre email ne doit pas excéder 50 caractères !';
+    }
 
-    if (strlen($datas['telephone']) > 20)
+    if (strlen($datas['telephone']) > 20) {
         $errors[] = 'Votre numéro de téléphone ne doit pas excéder 20 caractères !';
+    }
 
-    if (strlen($datas['password']) > 50)
+    if (strlen($datas['password']) > 50) {
         $errors[] = 'Votre mot de passe ne doit pas excéder 50 caractères !';
+    }
 
-    if (strlen($datas['adress']) > 50)
+    if (strlen($datas['adress']) > 50) {
         $errors[] = 'Votre adresse ne doit pas excéder 50 caractères !';
+    }
 
-    if (strlen($datas['additional-address']) > 50)
+    if (strlen($datas['additional-address']) > 50) {
         $errors[] = 'Votre complément d\'adresse ne doit pas excéder 50 caractères !';
+    }
 
-    if (strlen($datas['zip-code']) > 5)
+    if (strlen($datas['zip-code']) > 5) {
         $errors[] = 'Votre code postal ne doit pas excéder 5 caractères !';
+    }
 
-    if (strlen($datas['city']) > 50)
+    if (strlen($datas['city']) > 50) {
         $errors[] = 'Votre ville ne doit pas excéder 50 caractères !';
+    }
 
-    if (strlen($datas['country']) > 50)
+    if (strlen($datas['country']) > 50) {
         $errors[] = 'Votre pays ne doit pas excéder 50 caractères !';
+    }
 
     // Vérification des champs avec la fonction filter_var
-    if (!filter_var($datas['email'], FILTER_VALIDATE_EMAIL))
+    if (!filter_var($datas['email'], FILTER_VALIDATE_EMAIL)) {
         $errors[] = 'L\'email n\'est pas valide !';
+    }
 
-    if (!filter_var($datas['zip-code'], FILTER_VALIDATE_REGEXP, array("options" => array("regexp" => "/[0-9]{5}/"))))
+    if (!filter_var($datas['zip-code'], FILTER_VALIDATE_REGEXP, array("options" => array("regexp" => "/[0-9]{5}/")))) {
         $errors[] = 'Le code postal n\'est pas valide !';
-
+    }
 
 
     /* 
