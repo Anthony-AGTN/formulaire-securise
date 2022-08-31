@@ -345,7 +345,9 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                 }
             } else {
                 if (isset($datas)) {
-                    echo '<p>Donnée déclarées</p>';
+                    foreach ($datas as $key => $value) {
+                        echo '<p><strong>' . $key . ' :</strong> ' . $value . '</p>';
+                    }
                 } else {
                     echo '<p>Aucun résultat à afficher pour l\'instant =^_^=</p>';
                 }
