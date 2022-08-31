@@ -11,184 +11,166 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     // Traitement des données de $_POST --------------------------------------------------------
     //------------------------------------------------------------------------------------------
 
-    // Suppression des espaces blancs des éléments du tableau
-    $datas = array_map('trim', $_POST);
-
-    // Création d'un tableau pour stocker les messages d'erreurs
-    $errors = [];
-
-    // Vérification que les champs obligatoires soient remplis
-    $civilityAccepted = ['Non-binaire', 'Femme', 'Homme'];
-    if (empty($datas['civility'])) {
-        $errors[] = 'La civilité est obligatoire !';
-    } elseif (!in_array($datas['civility'], $civilityAccepted)) { // Vérification si le champ contient une donnée contenue dans un tableau prédéfini
-        $errors[] = 'La civilité n\'est pas valide !';
-    }
-
-    if (empty($datas['first-name'])) {
-        $errors[] = 'Le prénom est obligatoire !';
-    }
-
-    if (empty($datas['last-name'])) {
-        $errors[] = 'Le nom est obligatoire !';
-    }
-
-    if (empty($datas['date-of-birth'])) {
-        $errors[] = 'La date de naissance est obligatoire !';
-    }
-
-    if (empty($datas['email'])) {
-        $errors[] = 'L\'email est obligatoire !';
-    }
-
-    if (empty($datas['password'])) {
-        $errors[] = 'Le mot de passe est obligatoire !';
-    }
-
-    if (empty($datas['adress'])) {
-        $errors[] = 'L\'adresse est obligatoire !';
-    }
-
-    if (empty($datas['zip-code'])) {
-        $errors[] = 'Le code postal est obligatoire !';
-    }
-
-    if (empty($datas['city'])) {
-        $errors[] = 'La ville est obligatoire !';
-    }
-
-    if (empty($datas['country'])) {
-        $errors[] = 'Le pays est obligatoire !';
-    }
-
-    // Vérification que les champs ne dépasse pas le nombre de caractères autorisé
-    if (strlen($datas['first-name']) > 50) {
-        $errors[] = 'Votre prénom ne doit pas excéder 50 caractères !';
-    }
-
-    if (strlen($datas['last-name']) > 50) {
-        $errors[] = 'Votre nom ne doit pas excéder 50 caractères !';
-    }
-
-    if (strlen($datas['email']) > 50) {
-        $errors[] = 'Votre email ne doit pas excéder 50 caractères !';
-    }
-
-    if (strlen($datas['telephone']) > 20) {
-        $errors[] = 'Votre numéro de téléphone ne doit pas excéder 20 caractères !';
-    }
-
-    if (strlen($datas['password']) > 50) {
-        $errors[] = 'Votre mot de passe ne doit pas excéder 50 caractères !';
-    }
-
-    if (strlen($datas['adress']) > 50) {
-        $errors[] = 'Votre adresse ne doit pas excéder 50 caractères !';
-    }
-
-    if (strlen($datas['additional-address']) > 50) {
-        $errors[] = 'Votre complément d\'adresse ne doit pas excéder 50 caractères !';
-    }
-
-    if (strlen($datas['zip-code']) > 5) {
-        $errors[] = 'Votre code postal ne doit pas excéder 5 caractères !';
-    }
-
-    if (strlen($datas['city']) > 50) {
-        $errors[] = 'Votre ville ne doit pas excéder 50 caractères !';
-    }
-
-    if (strlen($datas['country']) > 50) {
-        $errors[] = 'Votre pays ne doit pas excéder 50 caractères !';
-    }
-
-    // Vérification des champs avec la fonction filter_var
-    if (!filter_var($datas['email'], FILTER_VALIDATE_EMAIL)) {
-        $errors[] = 'L\'email n\'est pas valide !';
-    }
-
-    if (!filter_var($datas['zip-code'], FILTER_VALIDATE_REGEXP, array("options" => array("regexp" => "/[0-9]{5}/")))) {
-        $errors[] = 'Le code postal n\'est pas valide !';
-    }
-
-
-    /* 
-civility
-first-name
-last-name
-date-of-birth
-email
-telephone
-password
-adress
-additional-address
-zip-code
-city
-country
- */
-
-    //------------------------------------------------------------------------------------------
-    // Traitement des données de $_FILES (Image de profil) -------------------------------------
-    //------------------------------------------------------------------------------------------
-    if (!empty($_FILES['avatar']['name'])) {
-        // chemin vers un dossier sur le serveur qui va recevoir les fichiers uploadés (attention ce dossier doit être accessible en écriture)
-        $uploadDir = 'public/uploads/';
-        // le nom de fichier sur le serveur est ici généré à partir du nom de fichier sur le poste du client (mais d'autre stratégies de nommage sont possibles)
-        $uploadFile = $uploadDir . basename($_FILES['avatar']['name']);
-        // Je récupère l'extension du fichier
-        $extension = pathinfo($_FILES['avatar']['name'], PATHINFO_EXTENSION);
-        // Les extensions autorisées (jpg, png, gif, webp)
-        $authorizedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
-        // Je récupère le type mime du fichier
-        $typeMime = mime_content_type($_FILES['avatar']['tmp_name']);
-        // Les types mime autorisées (image/jpeg, png, gif, image/webp)
-        $authorizedTypeMime = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
-        // Le poids max géré par PHP par défaut est de 2M, dans notre cas, nous sommes à 1M
-        $maxFileSize = 1000000;
-
-        /****** Si l'extension est autorisée *************/
-        if ((!in_array($extension, $authorizedExtensions))) {
-            $errors[] = 'Veuillez sélectionner une image de type Jpg ou Jpeg ou Png !';
-        }
-
-        /****** Si le type mime est autorisée *************/
-        if ((!in_array($typeMime, $authorizedTypeMime))) {
-            $errors[] = 'Le fichier est de type "' . $typeMime . '", veuillez sélectionner une image de type Jpg ou Jpeg ou Png !';
-        }
-
-        /****** On vérifie si l'image existe et si le poids est autorisé en octets *************/
-        if (file_exists($_FILES['avatar']['tmp_name']) && filesize($_FILES['avatar']['tmp_name']) > $maxFileSize) {
-            $errors[] = "Votre fichier doit faire moins de 1M !";
-        }
-
-        if (!empty($errors)) {
-            $displayErrors = '';
-            foreach ($errors as $error) {
-                $displayErrors .= "<div><h3>" . $error . "<h3><br></div>";
-            }
-        } else {
-
-            /****** on ajoute un uniqid au nom de l'image *************/
-            $explodeName = explode('.', basename($_FILES['avatar']['name']));
-            $name = $explodeName[0];
-            $extension = $explodeName[1];
-            $uniqName = $name . uniqid('', true) . "." . $extension;
-            $uploadFile = $uploadDir . $uniqName;
-
-            /****** Si je n'ai pas d'erreur alors j'upload *************/
-
-            // on déplace le fichier temporaire vers le nouvel emplacement sur le serveur. Ça y est, le fichier est uploadé
-            move_uploaded_file($_FILES['avatar']['tmp_name'], $uploadFile);
-
-            $photo = $uploadFile;
-        }
-    }
-
-    //------------------------------------------------------------------------------------------
-    // Supprimer les fichiers chargés ----------------------------------------------------------
-    //------------------------------------------------------------------------------------------
+    // Suppression des fichiers chargés si POST delete, sinon traitement du formulaire ---------
     if (!empty($_POST['delete'])) {
         array_map('unlink', glob("public/uploads/*"));;
+    } else {
+
+        // Suppression des espaces blancs des éléments du tableau
+        $datas = array_map('trim', $_POST);
+        var_dump($_POST);
+        var_dump($_FILES);
+
+        // Création d'un tableau pour stocker les messages d'erreurs
+        $errors = [];
+
+        //------------------------------------------------------------------------------------------
+        // Validation des données de $_POST --------------------------------------------------------
+        //------------------------------------------------------------------------------------------
+
+        // Civilité (Obligatoire + contenu)
+        $civilityAccepted = ['Non-binaire', 'Femme', 'Homme'];
+        if (empty($datas['civility'])) { // Vérification que le champ soit rempli car il est obligatoire
+            $errors[] = 'La civilité est obligatoire !';
+        } elseif (!in_array($datas['civility'], $civilityAccepted)) { // Vérification si le champ contient une donnée contenue dans un tableau prédéfini
+            $errors[] = 'La civilité n\'est pas valide !';
+        }
+
+        // Prénom (Obligatoire + 50 caractères max)
+        if (empty($datas['first-name'])) { // Vérification que le champ soit rempli car il est obligatoire
+            $errors[] = 'Le prénom est obligatoire !';
+        } elseif (strlen($datas['first-name']) > 50) { // Vérification que le champ ne dépasse pas 50 caractères
+            $errors[] = 'Votre prénom ne doit pas excéder 50 caractères !';
+        }
+
+        // Nom (Obligatoire + 50 caractères max)
+        if (empty($datas['last-name'])) { // Vérification que le champ soit rempli car il est obligatoire
+            $errors[] = 'Le nom est obligatoire !';
+        } elseif (strlen($datas['last-name']) > 50) { // Vérification que le champ ne dépasse pas 50 caractères
+            $errors[] = 'Votre nom ne doit pas excéder 50 caractères !';
+        }
+
+        // Date de naissance (Obligatoire)
+        if (empty($datas['date-of-birth'])) { // Vérification que le champ soit rempli car il est obligatoire
+            $errors[] = 'La date de naissance est obligatoire !';
+        }
+
+        // Email (Obligatoire + 50 caractères max + filter_var email)
+        if (empty($datas['email'])) { // Vérification que le champ soit rempli car il est obligatoire
+            $errors[] = 'L\'email est obligatoire !';
+        } elseif (strlen($datas['email']) > 50) { // Vérification que le champ ne dépasse pas 50 caractères
+            $errors[] = 'Votre email ne doit pas excéder 50 caractères !';
+        } elseif (!filter_var($datas['email'], FILTER_VALIDATE_EMAIL)) { // Vérification du champ avec la fonction filter_var
+            $errors[] = 'L\'email n\'est pas valide !';
+        }
+
+        // Numéro de téléphone (20 caractères max)
+        if (isset($datas['telephone'])) { // Vérification si le champ non obligatoire est rempli
+            if (strlen($datas['telephone']) > 20) { // Vérification que le champ ne dépasse pas 20 caractères
+                $errors[] = 'Votre numéro de téléphone ne doit pas excéder 20 caractères !';
+            }
+        }
+
+        // Mot de passe (Obligatoire + 50 caractères max)
+        if (empty($datas['password'])) { // Vérification que le champ soit rempli car il est obligatoire
+            $errors[] = 'Le mot de passe est obligatoire !';
+        } elseif (strlen($datas['password']) > 50) { // Vérification que le champ ne dépasse pas 50 caractères
+            $errors[] = 'Votre mot de passe ne doit pas excéder 50 caractères !';
+        }
+
+        // Adresse (Obligatoire + 50 caractères max)
+        if (empty($datas['adress'])) { // Vérification que le champ soit rempli car il est obligatoire
+            $errors[] = 'L\'adresse est obligatoire !';
+        } elseif (strlen($datas['adress']) > 50) { // Vérification que le champ ne dépasse pas 50 caractères
+            $errors[] = 'Votre adresse ne doit pas excéder 50 caractères !';
+        }
+
+        // Complément d'adresse (50 caractères max)
+        if (isset($datas['additional-address'])) { // Vérification si le champ non obligatoire est rempli
+            if (strlen($datas['additional-address']) > 50) { // Vérification que le champ ne dépasse pas 50 caractères
+                $errors[] = 'Votre complément d\'adresse ne doit pas excéder 50 caractères !';
+            }
+        }
+
+        // Code postal (Obligatoire + 50 caractères max + filter_var regexp)
+        if (empty($datas['zip-code'])) { // Vérification que le champ soit rempli car il est obligatoire
+            $errors[] = 'Le code postal est obligatoire !';
+        } elseif (strlen($datas['zip-code']) > 5) { // Vérification que le champ ne dépasse pas 5 caractères
+            $errors[] = 'Votre code postal ne doit pas excéder 5 caractères !';
+        } elseif (!filter_var($datas['zip-code'], FILTER_VALIDATE_REGEXP, array("options" => array("regexp" => "/[0-9]{5}/")))) { // Vérification du champ avec la fonction filter_var
+            $errors[] = 'Le code postal n\'est pas valide !';
+        }
+
+        // Ville (Obligatoire + 50 caractères max)
+        if (empty($datas['city'])) { // Vérification que le champ soit rempli car il est obligatoire
+            $errors[] = 'La ville est obligatoire !';
+        } elseif (strlen($datas['city']) > 50) { // Vérification que le champ ne dépasse pas 50 caractères
+            $errors[] = 'Votre ville ne doit pas excéder 50 caractères !';
+        }
+
+        // Pays (Obligatoire + 50 caractères max)
+        if (empty($datas['country'])) { // Vérification que le champ soit rempli car il est obligatoire
+            $errors[] = 'Le pays est obligatoire !';
+        } elseif (strlen($datas['country']) > 50) { // Vérification que le champ ne dépasse pas 50 caractères
+            $errors[] = 'Votre pays ne doit pas excéder 50 caractères !';
+        }
+
+        //------------------------------------------------------------------------------------------
+        // Traitement des données de $_FILES (Image de profil) -------------------------------------
+        //------------------------------------------------------------------------------------------
+        if (!empty($_FILES['avatar']['name'])) {
+            // chemin vers un dossier sur le serveur qui va recevoir les fichiers uploadés (attention ce dossier doit être accessible en écriture)
+            $uploadDir = 'public/uploads/';
+            // le nom de fichier sur le serveur est ici généré à partir du nom de fichier sur le poste du client (mais d'autre stratégies de nommage sont possibles)
+            $uploadFile = $uploadDir . basename($_FILES['avatar']['name']);
+            // Je récupère l'extension du fichier
+            $extension = pathinfo($_FILES['avatar']['name'], PATHINFO_EXTENSION);
+            // Les extensions autorisées (jpg, png, gif, webp)
+            $authorizedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+            // Je récupère le type mime du fichier
+            $typeMime = mime_content_type($_FILES['avatar']['tmp_name']);
+            // Les types mime autorisées (image/jpeg, png, gif, image/webp)
+            $authorizedTypeMime = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+            // Le poids max géré par PHP par défaut est de 2M, dans notre cas, nous sommes à 1M
+            $maxFileSize = 1000000;
+
+            /****** Si l'extension est autorisée *************/
+            if ((!in_array($extension, $authorizedExtensions))) {
+                $errors[] = 'Veuillez sélectionner une image de type Jpg ou Jpeg ou Png !';
+            }
+
+            /****** Si le type mime est autorisée *************/
+            if ((!in_array($typeMime, $authorizedTypeMime))) {
+                $errors[] = 'Le fichier est de type "' . $typeMime . '", veuillez sélectionner une image de type Jpg ou Jpeg ou Png !';
+            }
+
+            /****** On vérifie si l'image existe et si le poids est autorisé en octets *************/
+            if (file_exists($_FILES['avatar']['tmp_name']) && filesize($_FILES['avatar']['tmp_name']) > $maxFileSize) {
+                $errors[] = "Votre fichier doit faire moins de 1M !";
+            }
+
+            if (!empty($errors)) {
+                $displayErrors = '';
+                foreach ($errors as $error) {
+                    $displayErrors .= "<div><h3>" . $error . "<h3><br></div>";
+                }
+            } else {
+
+                /****** on ajoute un uniqid au nom de l'image *************/
+                $explodeName = explode('.', basename($_FILES['avatar']['name']));
+                $name = $explodeName[0];
+                $extension = $explodeName[1];
+                $uniqName = $name . uniqid('', true) . "." . $extension;
+                $uploadFile = $uploadDir . $uniqName;
+
+                /****** Si je n'ai pas d'erreur alors j'upload *************/
+
+                // on déplace le fichier temporaire vers le nouvel emplacement sur le serveur. Ça y est, le fichier est uploadé
+                move_uploaded_file($_FILES['avatar']['tmp_name'], $uploadFile);
+
+                $photo = $uploadFile;
+            }
+        }
     }
 }
 
@@ -349,7 +331,7 @@ country
 
         </div>
 
-        <!-- Affichage du résultat du formulaire -->
+        <!-- Affichage du résultat du formulaire ou des erreurs -->
         <div class="form-container">
 
             <h2>Résultat du formulaire HTML + PHP</h2>
@@ -362,7 +344,11 @@ country
                     echo '<h3>' . $error . '</h3>';
                 }
             } else {
-                echo '<p>Aucun résultat à afficher pour l\'instant =^_^=</p>';
+                if (isset($datas)) {
+                    echo '<p>Donnée déclarées</p>';
+                } else {
+                    echo '<p>Aucun résultat à afficher pour l\'instant =^_^=</p>';
+                }
             }
 
             ?>
