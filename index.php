@@ -18,8 +18,11 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     $errors = [];
 
     // Vérification que les champs obligatoires soient remplis
+    $civilityAccepted = ['Non-binaire', 'Femme', 'Homme'];
     if (empty($datas['civility'])) {
         $errors[] = 'La civilité est obligatoire !';
+    } elseif (!in_array($datas['civility'], $civilityAccepted)) { // Vérification si le champ contient une donnée contenue dans un tableau prédéfini
+        $errors[] = 'La civilité n\'est pas valide !';
     }
 
     if (empty($datas['first-name'])) {
@@ -93,7 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     if (!filter_var($datas['email'], FILTER_VALIDATE_EMAIL))
         $errors[] = 'L\'email n\'est pas valide !';
 
-    if (!filter_var($datas['zip-code'], FILTER_VALIDATE_REGEXP, array("options" => array("regexp"=>"/[0-9]{5}/"))))
+    if (!filter_var($datas['zip-code'], FILTER_VALIDATE_REGEXP, array("options" => array("regexp" => "/[0-9]{5}/"))))
         $errors[] = 'Le code postal n\'est pas valide !';
 
 
