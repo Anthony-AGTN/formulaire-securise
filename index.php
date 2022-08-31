@@ -18,6 +18,10 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     $errors = [];
 
     // Vérification que les champs obligatoires soient remplis
+    if (empty($datas['civility'])) {
+        $errors[] = 'La civilité est obligatoire !';
+    }
+
     if (empty($datas['first-name'])) {
         $errors[] = 'Le prénom est obligatoire !';
     }
@@ -242,7 +246,7 @@ country
 
             <form action="" method="post" enctype="multipart/form-data">
 
-                <p>Civilité :</p>
+                <p>Civilité<span>*</span> :</p>
                 <div class="form-input">
                     <input type="radio" id="non-binary" name="civility" value="Non-binaire">
                     <label for="Non-binary">Non-binaire</label>
