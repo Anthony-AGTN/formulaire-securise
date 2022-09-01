@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
     // Suppression des fichiers chargés si POST delete, sinon traitement du formulaire ---------
     if (!empty($_POST['delete'])) {
-        array_map('unlink', glob("public/uploads/*"));;
+        array_map('unlink', glob("public/uploads/*"));
     } else {
 
         // Suppression des espaces blancs des éléments du tableau
