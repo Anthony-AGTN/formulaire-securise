@@ -1,4 +1,18 @@
 <?php
+//------------------------------------------------------------------------------------------
+// Gestion de la base de données avec PDO --------------------------------------------------
+//------------------------------------------------------------------------------------------
+
+// Appel du fichier 'connec.php', contenant les variables DSN, USER et PASS
+require_once './connec.php';
+
+// Connexion à la base de données avec PDO
+$pdo = new PDO(DSN, USER, PASS);
+
+// Requète pour récupérer tous les enregistrements de la table 'datas_form'
+$query = "SELECT * FROM datas_form";
+$statement = $pdo->query($query);
+$savedFormDatas = $statement->fetchAll();
 
 //------------------------------------------------------------------------------------------
 // Traitement des données du formulaire ----------------------------------------------------
@@ -18,8 +32,6 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
         // Suppression des espaces blancs des éléments du tableau
         $datas = array_map('trim', $_POST);
-        var_dump($_POST);
-        var_dump($_FILES);
 
         // Création d'un tableau pour stocker les messages d'erreurs
         $errors = [];
@@ -115,7 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         } elseif (!in_array($datas['country'], $countryAccepted)) { // Vérification si le champ contient une donnée contenue dans un tableau prédéfini
             $errors[] = 'Le pays ne fait pas partie des pays autorisés !';
         }
-        
+
         //------------------------------------------------------------------------------------------
         // Traitement des données de $_FILES (Image de profil) -------------------------------------
         //------------------------------------------------------------------------------------------
