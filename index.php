@@ -402,7 +402,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
             <p class="h2-comment">Affichage des données enregistrées dans la base de données</p>
 
             <?php
-            
+
             if (!empty($savedFormDatas)) { // Si données enregistrées dans la base de données on affiche dans un tableau
 
                 echo '<table>
