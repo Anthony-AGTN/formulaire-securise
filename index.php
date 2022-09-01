@@ -108,13 +108,14 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
             $errors[] = 'Votre ville ne doit pas excéder 50 caractères !';
         }
 
-        // Pays (Obligatoire + 50 caractères max)
+        // Pays (Obligatoire + contenu)
+        $countryAccepted = ['france', 'allemagne', 'angleterre', 'portugal', 'suisse', 'italie'];
         if (empty($datas['country'])) { // Vérification que le champ soit rempli car il est obligatoire
             $errors[] = 'Le pays est obligatoire !';
-        } elseif (strlen($datas['country']) > 50) { // Vérification que le champ ne dépasse pas 50 caractères
-            $errors[] = 'Votre pays ne doit pas excéder 50 caractères !';
+        } elseif (!in_array($datas['country'], $countryAccepted)) { // Vérification si le champ contient une donnée contenue dans un tableau prédéfini
+            $errors[] = 'Le pays ne fait pas partie des pays autorisés !';
         }
-
+        
         //------------------------------------------------------------------------------------------
         // Traitement des données de $_FILES (Image de profil) -------------------------------------
         //------------------------------------------------------------------------------------------
@@ -355,7 +356,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                     foreach ($datas as $key => $value) {
                         echo '<p><strong>' . $key . ' :</strong> ' . $value . '</p>';
                     }
-                    if ($profilePicture) {
+                    if (isset($profilePicture)) {
                         echo '<img src="' . $profilePicture . '">';
                     }
                 } else { // S'il n'y a pas eu de formulaire soumis
