@@ -186,6 +186,32 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                 $profilePicture = $uploadFile;
             }
         }
+
+        if (empty($errors)) { // Si aucune erreur, enregistrement des données du formulaire en base de données
+
+            // Requète pour enregister dans la table 'datas_form' les données du formulaire
+            $query = 'INSERT INTO datas_form
+                        (`civility`, `first-name`, `last-name`, `date-of-birth`, `email`, `telephone`, `password`, `adress`, `additional-address`, `zip-code`, `city`, `country`)
+                        VALUES
+                        (:civility, :first_name, :last_name, :date_of_birth, :email, :telephone, :password, :adress, :additional_address, :zip_code, :city, :country)';
+
+            $statement = $pdo->prepare($query);
+
+            $statement->bindValue(':civility', $datas['civility'], \PDO::PARAM_STR);
+            $statement->bindValue(':first_name', $datas['first-name'], \PDO::PARAM_STR);
+            $statement->bindValue(':last_name', $datas['last-name'], \PDO::PARAM_STR);
+            $statement->bindValue(':date_of_birth', $datas['date-of-birth'], \PDO::PARAM_STR);
+            $statement->bindValue(':email', $datas['email'], \PDO::PARAM_STR);
+            $statement->bindValue(':telephone', $datas['telephone'], \PDO::PARAM_STR);
+            $statement->bindValue(':password', $datas['password'], \PDO::PARAM_STR);
+            $statement->bindValue(':adress', $datas['adress'], \PDO::PARAM_STR);
+            $statement->bindValue(':additional_address', $datas['additional-address'], \PDO::PARAM_STR);
+            $statement->bindValue(':zip_code', $datas['zip-code'], \PDO::PARAM_STR);
+            $statement->bindValue(':city', $datas['city'], \PDO::PARAM_STR);
+            $statement->bindValue(':country', $datas['country'], \PDO::PARAM_STR);
+
+            $statement->execute();
+        }
     }
 }
 
