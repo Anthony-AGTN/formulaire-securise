@@ -243,6 +243,11 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         span {
             color: red;
         }
+
+        table,
+        td {
+            border: 1px solid #333;
+        }
     </style>
 </head>
 
@@ -387,6 +392,50 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                     <button name="delete" value="1">Supprimer les fichiers chargés</button>
                 </div>
             </form>
+        </div>
+
+        <!-- Affichage des données enregistrées dans la base de données -->
+        <div class="form-container">
+
+            <h2>Résultats enregistrés</h2>
+
+            <p class="h2-comment">Affichage des données enregistrées dans la base de données</p>
+
+            <?php
+            
+            if (!empty($savedFormDatas)) { // Si données enregistrées dans la base de données on affiche dans un tableau
+
+                echo '<table>
+                        <tr>
+                            <th>Clé</th>
+                            <th>Valeur</th>
+                        </tr>';
+
+                foreach ($savedFormDatas as $savedFormData) {
+                    foreach ($savedFormData as $key => $value) {
+                        if ((filter_var($key, FILTER_VALIDATE_REGEXP, array("options" => array("regexp" => "/[^0-9]/"))))) { // REGEX pour ne pas afficher les $key contenant des chiffres
+                            if ('id' === $key) {
+                                echo '<tr>
+                                        <td><strong>' . $key . '</strong></td>
+                                        <td><strong>' . $value . '</strong></td>
+                                    </tr>';
+                            } else {
+                                echo '<tr>
+                                        <td>' . $key . '</td>
+                                        <td>' . $value . '</td>
+                                    </tr>';
+                            }
+                        }
+                    }
+                }
+
+                echo '</table>';
+            } else { // S'il n'y a pas eu de formulaire soumis
+                echo '<p>Aucun résultat enregistré pour l\'instant =^_^=</p>';
+            }
+
+            ?>
+
         </div>
 
     </div>
