@@ -440,15 +440,15 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                 foreach ($savedFormDatas as $savedFormData) {
                     foreach ($savedFormData as $key => $value) {
                         if ((filter_var($key, FILTER_VALIDATE_REGEXP, array("options" => array("regexp" => "/[^0-9]/"))))) { // REGEX pour ne pas afficher les $key contenant des chiffres
-                            
+
                             if (null != $key) { // Sécurisation des données renvoyées avec htmlentities()
                                 $key = htmlentities($key);
                             }
-                        
+
                             if (null != $value) { // Sécurisation des données renvoyées avec htmlentities()
                                 $value = htmlentities($value);
                             }
-                              
+
                             if ('id' === $key) {
                                 echo '<tr>
                                         <td><strong>' . $key . '</strong></td>
